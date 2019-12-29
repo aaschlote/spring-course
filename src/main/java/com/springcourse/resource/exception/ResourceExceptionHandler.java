@@ -1,5 +1,6 @@
 package com.springcourse.resource.exception;
 
+import java.nio.file.AccessDeniedException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -7,10 +8,12 @@ import java.util.List;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.springcourse.exception.NotFoundException;
@@ -19,9 +22,27 @@ import com.springcourse.exception.NotFoundException;
 public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
 	
 	@ExceptionHandler(NotFoundException.class)
-	public ResponseEntity<ApiError> handleNotFundException(NotFoundException ex){
+	public ResponseEntity<ApiError> handleNotFoundException(NotFoundException ex){
 		ApiError error = new ApiError(HttpStatus.NOT_FOUND.value(),ex.getMessage(), new Date());
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+	}
+	
+	@ExceptionHandler(AccessDeniedException.class)
+	public ResponseEntity<ApiError> handleNotFoundException(AccessDeniedException ex){
+		ApiError error = new ApiError(HttpStatus.FORBIDDEN.value(),ex.getMessage(), new Date());
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
+	}
+	
+	@ExceptionHandler(BadCredentialsException.class)
+	public ResponseEntity<ApiError> handleBadCredentialsException(BadCredentialsException ex){
+		ApiError error = new ApiError(HttpStatus.UNAUTHORIZED.value(),ex.getMessage(), new Date());
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+	}
+	
+	@ExceptionHandler(MaxUploadSizeExceededException.class)
+	public ResponseEntity<ApiError> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException ex){
+		ApiError error = new ApiError(HttpStatus.BAD_REQUEST.value(),ex.getMessage(), new Date());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
 	}
 	
 	@Override

@@ -32,7 +32,7 @@ public class RequestRepositoryTests {
 		owner.setId(1l);
 
 		Request request = new Request(null, "Novo Laptop HP", "Pretendo obter um laptop HP", new Date(),
-				RequestState.OPEN, owner, null);
+				RequestState.OPEN, owner, null, null);
 
 		Request createdRequest = requestRepository.save(request);
 
@@ -46,7 +46,7 @@ public class RequestRepositoryTests {
 		owner.setId(1l);
 
 		Request request = new Request(1l, "Novo Laptop HP", "Pretendo obter um laptop HP, de 16 GB", null,
-				RequestState.OPEN, owner, null);
+				RequestState.OPEN, owner, null, null);
 
 		Request updatedRequest = requestRepository.save(request);
 
